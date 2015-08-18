@@ -39,8 +39,8 @@ class MetalViewController: UIViewController {
         metalLayer.device = device
         metalLayer.pixelFormat = .BGRA8Unorm
         metalLayer.framebufferOnly = true
-        metalLayer.frame = view.layer.frame
-        view.layer.addSublayer(metalLayer)   
+        //metalLayer.frame = view.layer.frame
+        view.layer.addSublayer(metalLayer)
         
         //objectToDraw = Cube(device: device)
         
@@ -74,6 +74,21 @@ class MetalViewController: UIViewController {
 
     }
     
+    override func viewDidLayoutSubviews() {
+        super.viewDidLayoutSubviews()
+        
+        if let window = view.window {
+            let scale = window.screen.nativeScale
+            let layerSize = view.bounds.size
+            
+            view.contentScaleFactor = scale
+            metalLayer.frame = CGRectMake(0, 0, layerSize.width, layerSize.height)
+            metalLayer.drawableSize = CGSizeMake(layerSize.width * scale, layerSize.height * scale)
+            
+            projectionMatrix = Matrix4.makePerspectiveViewAngle(Matrix4.degreesToRad(85.0), aspectRatio: Float(self.view.bounds.size.width / self.view.bounds.size.height), nearZ: 0.01, farZ: 100.0)
+        }
+    }
+    
     func render() {
         if let drawable = metalLayer.nextDrawable() {
             self.metalViewControllerDelegate?.renderObjects(drawable)
@@ -102,9 +117,5 @@ class MetalViewController: UIViewController {
     override func prefersStatusBarHidden() -> Bool {
         return true
     }
-
-    
-    
-    
     
 }
