@@ -15,7 +15,10 @@ class Node {
     let name: String
     let vertexCount: Int
     var vertexBuffer: MTLBuffer
-    var uniformBuffer: MTLBuffer?
+    
+    var bufferProvider: BufferProvider
+    
+    //var uniformBuffer: MTLBuffer?
     var device : MTLDevice
     
     var positionX:Float = 0.0
@@ -31,8 +34,6 @@ class Node {
     var time:CFTimeInterval = 0.0
     
     init(name: String, vertices: Array<Vertex>, device: MTLDevice) {
-        
-        
         
         // Since Node is an object to draw, you need to provide it with the vertices it contains, a name for convenience, and a device to create buffers and render later on.
         
@@ -50,6 +51,8 @@ class Node {
         self.name = name
         self.device = device
         vertexCount = vertices.count
+        
+        self.bufferProvider = BufferProvider(device: device, inflightBuffersCount: 3, sizeOfUniformsBufffer: sizeof(Float) * Matrix4.numberOfElements() * 2)
     }
     
     func render(commandQueue: MTLCommandQueue, pipelineState: MTLRenderPipelineState, drawable: CAMetalDrawable, parentModelViewMatrix: Matrix4, projectionMatrix: Matrix4, clearColor: MTLClearColor?) {
@@ -75,24 +78,12 @@ class Node {
             // converts the current convenience properties (position, rotation, scale) into a model matrix
             var nodeModelMatrix = self.modelMatrix()
             nodeModelMatrix.multiplyLeft(parentModelViewMatrix)
-            // ask the device to create a buffer with shared CPU/GPU memory
-            //uniformBuffer = device.newBufferWithLength(sizeof(Float) * Matrix4.numberOfElements(), options: nil)
-            uniformBuffer = device.newBufferWithLength(sizeof(Float) * Matrix4.numberOfElements() * 2, options: nil)
+           
+            // ask the BufferProvider for the next available buffer
+            let uniformBuffer = bufferProvider.nextUniformsBuffer(projectionMatrix, modelViewMatrix: nodeModelMatrix)
             
-            /*
-            
-            NOTE: the above code is bad because it is creating a new buffer every frame
-            you can find a better example in the Metal Game template
-            
-            */
-            
-            // get a raw pointer from buffer (similar ro void * in Objective C)
-            var bufferPointer = uniformBuffer?.contents()
-            // copy your matrix data into the buffer
-            memcpy(bufferPointer!, nodeModelMatrix.raw(), sizeof(Float) * Matrix4.numberOfElements())
-            memcpy(bufferPointer! + sizeof(Float) * Matrix4.numberOfElements(), projectionMatrix.raw(), sizeof(Float) * Matrix4.numberOfElements())
             // pass uniformBuffer (with copied data) to the vertex shader
-            renderEncoder.setVertexBuffer(self.uniformBuffer, offset: 0, atIndex: 1)
+            renderEncoder.setVertexBuffer(uniformBuffer, offset: 0, atIndex: 1)
             
             renderEncoder.drawPrimitives(.Triangle, vertexStart: 0, vertexCount: vertexCount, instanceCount: vertexCount/3)
             renderEncoder.endEncoding()
