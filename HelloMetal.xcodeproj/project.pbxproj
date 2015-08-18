@@ -8,12 +8,13 @@
 
 /* Begin PBXBuildFile section */
 		35023C4619DDB96F006F3266 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 35023C4519DDB96F006F3266 /* AppDelegate.swift */; };
-		35023C4819DDB970006F3266 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 35023C4719DDB970006F3266 /* ViewController.swift */; };
 		35023C4B19DDB970006F3266 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 35023C4919DDB970006F3266 /* Main.storyboard */; };
 		35023C4D19DDB970006F3266 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 35023C4C19DDB970006F3266 /* Images.xcassets */; };
 		35023C5019DDB970006F3266 /* LaunchScreen.xib in Resources */ = {isa = PBXBuildFile; fileRef = 35023C4E19DDB970006F3266 /* LaunchScreen.xib */; };
 		35023C5C19DDB970006F3266 /* HelloMetalTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 35023C5B19DDB970006F3266 /* HelloMetalTests.swift */; };
 		35023C6619DDBB29006F3266 /* Shaders.metal in Sources */ = {isa = PBXBuildFile; fileRef = 35023C6519DDBB29006F3266 /* Shaders.metal */; };
+		A257516E1B836A8100FCC740 /* MetalViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A257516D1B836A8100FCC740 /* MetalViewController.swift */; };
+		A25751701B836EC000FCC740 /* SceneViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A257516F1B836EC000FCC740 /* SceneViewController.swift */; };
 		A2C1EBBB1B8242E80033C85A /* Matrix4.m in Sources */ = {isa = PBXBuildFile; fileRef = A2C1EBBA1B8242E80033C85A /* Matrix4.m */; };
 		A2C1EBC01B824A230033C85A /* Vertex.swift in Sources */ = {isa = PBXBuildFile; fileRef = A2C1EBBF1B824A230033C85A /* Vertex.swift */; };
 		A2C1EBC21B825A6A0033C85A /* Node.swift in Sources */ = {isa = PBXBuildFile; fileRef = A2C1EBC11B825A6A0033C85A /* Node.swift */; };
@@ -35,7 +36,6 @@
 		35023C4019DDB96F006F3266 /* HelloMetal.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = HelloMetal.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		35023C4419DDB96F006F3266 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		35023C4519DDB96F006F3266 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
-		35023C4719DDB970006F3266 /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
 		35023C4A19DDB970006F3266 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		35023C4C19DDB970006F3266 /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Images.xcassets; sourceTree = "<group>"; };
 		35023C4F19DDB970006F3266 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = Base; path = Base.lproj/LaunchScreen.xib; sourceTree = "<group>"; };
@@ -43,6 +43,8 @@
 		35023C5A19DDB970006F3266 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		35023C5B19DDB970006F3266 /* HelloMetalTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HelloMetalTests.swift; sourceTree = "<group>"; };
 		35023C6519DDBB29006F3266 /* Shaders.metal */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.metal; path = Shaders.metal; sourceTree = "<group>"; };
+		A257516D1B836A8100FCC740 /* MetalViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MetalViewController.swift; sourceTree = "<group>"; };
+		A257516F1B836EC000FCC740 /* SceneViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SceneViewController.swift; sourceTree = "<group>"; };
 		A2C1EBB91B8242E80033C85A /* Matrix4.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Matrix4.h; sourceTree = "<group>"; };
 		A2C1EBBA1B8242E80033C85A /* Matrix4.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Matrix4.m; sourceTree = "<group>"; };
 		A2C1EBBE1B8244F50033C85A /* HelloMetal-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "HelloMetal-Bridging-Header.h"; sourceTree = "<group>"; };
@@ -93,12 +95,13 @@
 			children = (
 				A2C1EBC11B825A6A0033C85A /* Node.swift */,
 				A2C1EBC51B826B0E0033C85A /* Cube.swift */,
+				A257516F1B836EC000FCC740 /* SceneViewController.swift */,
+				A257516D1B836A8100FCC740 /* MetalViewController.swift */,
 				A2C1EBC31B825FBD0033C85A /* Triangle.swift */,
 				A2C1EBBF1B824A230033C85A /* Vertex.swift */,
 				A2C1EBB91B8242E80033C85A /* Matrix4.h */,
 				A2C1EBBA1B8242E80033C85A /* Matrix4.m */,
 				35023C4519DDB96F006F3266 /* AppDelegate.swift */,
-				35023C4719DDB970006F3266 /* ViewController.swift */,
 				35023C4919DDB970006F3266 /* Main.storyboard */,
 				35023C4C19DDB970006F3266 /* Images.xcassets */,
 				35023C4E19DDB970006F3266 /* LaunchScreen.xib */,
@@ -234,14 +237,15 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				A25751701B836EC000FCC740 /* SceneViewController.swift in Sources */,
 				35023C6619DDBB29006F3266 /* Shaders.metal in Sources */,
 				A2C1EBBB1B8242E80033C85A /* Matrix4.m in Sources */,
-				35023C4819DDB970006F3266 /* ViewController.swift in Sources */,
 				A2C1EBC21B825A6A0033C85A /* Node.swift in Sources */,
 				A2C1EBC61B826B0E0033C85A /* Cube.swift in Sources */,
 				A2C1EBC01B824A230033C85A /* Vertex.swift in Sources */,
 				A2C1EBC41B825FBD0033C85A /* Triangle.swift in Sources */,
 				35023C4619DDB96F006F3266 /* AppDelegate.swift in Sources */,
+				A257516E1B836A8100FCC740 /* MetalViewController.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

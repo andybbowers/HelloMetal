@@ -1,34 +1,33 @@
 //
-//  ViewController.swift
+//  MetalViewController.swift
 //  HelloMetal
 //
-//  Created by Main Account on 10/2/14.
-//  Copyright (c) 2014 Razeware LLC. All rights reserved.
+//  Created by Andrew Bowers on 8/18/15.
+//  Copyright (c) 2015 Razeware LLC. All rights reserved.
 //
 
 import UIKit
 import Metal
 import QuartzCore
 
-class ViewController: UIViewController {
+protocol MetalViewControllerDelegate: class {
+    func updateLogic(timeSinceLastUpdate:CFTimeInterval)
+    func renderObjects(drawable:CAMetalDrawable)
+}
 
+class MetalViewController: UIViewController {
+    
     var device: MTLDevice! = nil
     var metalLayer: CAMetalLayer! = nil
-    //var objectToDraw: Triangle!
-    var objectToDraw: Cube!
     var pipelineState: MTLRenderPipelineState! = nil
     var commandQueue: MTLCommandQueue! = nil
-    
     var projectionMatrix: Matrix4!
-    
     var timer: CADisplayLink! = nil
     var lastFrameTimestamp: CFTimeInterval = 0.0
     
+    weak var metalViewControllerDelegate:MetalViewControllerDelegate?
     
-    
-  
     override func viewDidLoad() {
-        
         super.viewDidLoad()
         
         device = MTLCreateSystemDefaultDevice()
@@ -43,13 +42,7 @@ class ViewController: UIViewController {
         metalLayer.frame = view.layer.frame  // 5
         view.layer.addSublayer(metalLayer)   // 6
         
-        objectToDraw = Cube(device: device)
-        
-//        objectToDraw.positionX = 0.0
-//        objectToDraw.positionY = 0.0
-//        objectToDraw.positionZ = -2.0
-//        objectToDraw.rotationZ = Matrix4.degreesToRad(45)
-//        objectToDraw.scale = 0.5
+        //objectToDraw = Cube(device: device)
         
         commandQueue = device.newCommandQueue()
         
@@ -62,6 +55,14 @@ class ViewController: UIViewController {
         pipelineStateDescriptor.fragmentFunction = fragmentProgram
         pipelineStateDescriptor.colorAttachments[0].pixelFormat = .BGRA8Unorm
         
+        pipelineStateDescriptor.colorAttachments[0].blendingEnabled = true
+        pipelineStateDescriptor.colorAttachments[0].rgbBlendOperation = MTLBlendOperation.Add;
+        pipelineStateDescriptor.colorAttachments[0].alphaBlendOperation = MTLBlendOperation.Add;
+        pipelineStateDescriptor.colorAttachments[0].sourceRGBBlendFactor = MTLBlendFactor.One;
+        pipelineStateDescriptor.colorAttachments[0].sourceAlphaBlendFactor = MTLBlendFactor.One;
+        pipelineStateDescriptor.colorAttachments[0].destinationRGBBlendFactor = MTLBlendFactor.OneMinusSourceAlpha;
+        pipelineStateDescriptor.colorAttachments[0].destinationAlphaBlendFactor = MTLBlendFactor.OneMinusSourceAlpha;
+        
         var pipelineError : NSError?
         pipelineState = device.newRenderPipelineStateWithDescriptor(pipelineStateDescriptor, error: &pipelineError)
         if pipelineState == nil {
@@ -70,22 +71,13 @@ class ViewController: UIViewController {
         
         timer = CADisplayLink(target: self, selector: Selector("newFrame:"))
         timer.addToRunLoop(NSRunLoop.mainRunLoop(), forMode: NSDefaultRunLoopMode)
-        
-    }
 
-    override func didReceiveMemoryWarning() {
-        super.didReceiveMemoryWarning()
     }
     
     func render() {
-        
-        var worldModelMatrix = Matrix4()
-        worldModelMatrix.translate(0.0, y: 0.0, z: -7.0)
-        worldModelMatrix.rotateAroundX(Matrix4.degreesToRad(25), y: 0.0, z: 0.0)
-        
-        var drawable = metalLayer.nextDrawable()
-        objectToDraw.render(commandQueue, pipelineState: pipelineState, drawable: drawable, parentModelViewMatrix: worldModelMatrix, projectionMatrix: projectionMatrix, clearColor: nil)
-    
+        if let drawable = metalLayer.nextDrawable() {
+            self.metalViewControllerDelegate?.renderObjects(drawable)
+        }
     }
     
     func newFrame(displayLink: CADisplayLink) {
@@ -99,9 +91,9 @@ class ViewController: UIViewController {
         
         gameloop(timeSinceLastUpdate: elapsed)
     }
-   
+    
     func gameloop(#timeSinceLastUpdate: CFTimeInterval) {
-        objectToDraw.updateWithDelta(timeSinceLastUpdate)
+        self.metalViewControllerDelegate?.updateLogic(timeSinceLastUpdate)
         autoreleasepool {
             self.render()
         }
@@ -111,5 +103,8 @@ class ViewController: UIViewController {
         return true
     }
 
+    
+    
+    
+    
 }
-
