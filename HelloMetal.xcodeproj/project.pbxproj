@@ -21,6 +21,7 @@
 		A2C1EBC21B825A6A0033C85A /* Node.swift in Sources */ = {isa = PBXBuildFile; fileRef = A2C1EBC11B825A6A0033C85A /* Node.swift */; };
 		A2C1EBC41B825FBD0033C85A /* Triangle.swift in Sources */ = {isa = PBXBuildFile; fileRef = A2C1EBC31B825FBD0033C85A /* Triangle.swift */; };
 		A2C1EBC61B826B0E0033C85A /* Cube.swift in Sources */ = {isa = PBXBuildFile; fileRef = A2C1EBC51B826B0E0033C85A /* Cube.swift */; };
+		A2D2DFB91B838C9800918D84 /* MetalTexture.swift in Sources */ = {isa = PBXBuildFile; fileRef = A2D2DFB81B838C9800918D84 /* MetalTexture.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -54,6 +55,7 @@
 		A2C1EBC11B825A6A0033C85A /* Node.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Node.swift; sourceTree = "<group>"; };
 		A2C1EBC31B825FBD0033C85A /* Triangle.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Triangle.swift; sourceTree = "<group>"; };
 		A2C1EBC51B826B0E0033C85A /* Cube.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Cube.swift; sourceTree = "<group>"; };
+		A2D2DFB81B838C9800918D84 /* MetalTexture.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MetalTexture.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -102,6 +104,7 @@
 				A2C1EBC51B826B0E0033C85A /* Cube.swift */,
 				A2C1EBC31B825FBD0033C85A /* Triangle.swift */,
 				A25751711B83742600FCC740 /* BufferProvider.swift */,
+				A2D2DFB81B838C9800918D84 /* MetalTexture.swift */,
 				A2C1EBBF1B824A230033C85A /* Vertex.swift */,
 				A2C1EBB91B8242E80033C85A /* Matrix4.h */,
 				A2C1EBBA1B8242E80033C85A /* Matrix4.m */,
@@ -240,6 +243,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				A2D2DFB91B838C9800918D84 /* MetalTexture.swift in Sources */,
 				A25751721B83742600FCC740 /* BufferProvider.swift in Sources */,
 				A25751701B836EC000FCC740 /* SceneViewController.swift in Sources */,
 				35023C6619DDBB29006F3266 /* Shaders.metal in Sources */,
