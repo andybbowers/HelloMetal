@@ -57,6 +57,9 @@ class Node {
     
     func render(commandQueue: MTLCommandQueue, pipelineState: MTLRenderPipelineState, drawable: CAMetalDrawable, parentModelViewMatrix: Matrix4, projectionMatrix: Matrix4, clearColor: MTLClearColor?) {
         
+        // this will make the CPU wait in case the semaphore has no free resources
+        dispatch_semaphore_wait(bufferProvider.availableBuffersSemaphore, DISPATCH_TIME_FOREVER)
+        
         // a renderPassDescriptor configures what texture is being rendered to, what the clear color is, and a bit of other configuration
         let renderPassDescriptor = MTLRenderPassDescriptor()
         renderPassDescriptor.colorAttachments[0].texture = drawable.texture
@@ -66,6 +69,10 @@ class Node {
         
         // create a command buffer.  Think of a command buffer as the list of render commands that you wish to execute for this frame
         let commandBuffer = commandQueue.commandBuffer()
+        // this makes it so that when the GPU finishes rendering, it executes a completion handle to signal the semaphore (and bumps its count back up again)
+        commandBuffer.addCompletedHandler { (commandBuffer) -> Void in
+            var temp = dispatch_semaphore_signal(self.bufferProvider.availableBuffersSemaphore)
+        }
         
         // a command buffer contains one or more render commands.  to create a render command, you use a helper object called a render command encoder
         let renderEncoderOpt = commandBuffer.renderCommandEncoderWithDescriptor(renderPassDescriptor)

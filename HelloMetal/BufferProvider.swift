@@ -19,6 +19,9 @@ class BufferProvider: NSObject {
     // an Int that will store the number of buffers stored by BufferProvider
     let inflightBuffersCount: Int
     
+    // a semaphore allows you to track how many of a limited amount of resources are available
+    var availableBuffersSemaphore:dispatch_semaphore_t
+    
     // an array that will store the buffers themselves
     private var uniformsBuffers: [MTLBuffer]
     // the index of the next available buffer
@@ -26,10 +29,12 @@ class BufferProvider: NSObject {
     
     init(device:MTLDevice, inflightBuffersCount: Int, sizeOfUniformsBufffer: Int) {
         
+        availableBuffersSemaphore = dispatch_semaphore_create(inflightBuffersCount)
+        
         self.inflightBuffersCount = inflightBuffersCount
         uniformsBuffers = [MTLBuffer]()
         
-        for i in 0...inflightBuffersCount-1 {
+        for i in 0..<inflightBuffersCount {
             var uniformsBuffer = device.newBufferWithLength(sizeOfUniformsBufffer, options: nil)
             uniformsBuffers.append(uniformsBuffer)
         }
@@ -54,6 +59,13 @@ class BufferProvider: NSObject {
         }
         
         return buffer
+    }
+    
+    // deinit does a little cleanup before object deletion, and without this the app would crash when the semaphore waits and when you delete BufferProvider
+    deinit {
+        for i in 0..<self.inflightBuffersCount {
+            dispatch_semaphore_signal(self.availableBuffersSemaphore)
+        }
     }
 }
 
