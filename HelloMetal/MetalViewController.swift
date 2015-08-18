@@ -35,12 +35,12 @@ class MetalViewController: UIViewController {
         projectionMatrix = Matrix4.makePerspectiveViewAngle(Matrix4.degreesToRad(85.0), aspectRatio: Float(self.view.bounds.size.width / self.view.bounds.size.height), nearZ: 0.01, farZ: 100.0)
         
         
-        metalLayer = CAMetalLayer()          // 1
-        metalLayer.device = device           // 2
-        metalLayer.pixelFormat = .BGRA8Unorm // 3
-        metalLayer.framebufferOnly = true    // 4
-        metalLayer.frame = view.layer.frame  // 5
-        view.layer.addSublayer(metalLayer)   // 6
+        metalLayer = CAMetalLayer()
+        metalLayer.device = device
+        metalLayer.pixelFormat = .BGRA8Unorm
+        metalLayer.framebufferOnly = true
+        metalLayer.frame = view.layer.frame
+        view.layer.addSublayer(metalLayer)   
         
         //objectToDraw = Cube(device: device)
         

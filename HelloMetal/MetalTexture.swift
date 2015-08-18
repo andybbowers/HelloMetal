@@ -23,7 +23,7 @@ class MetalTexture: NSObject {
     let bitsPerComponent:Int! = 8
   
     //MARK: - Creation
-    init(resourceName: String,ext: String, mipmaped:Bool){
+    init(resourceName: String, ext: String, mipmaped:Bool){
         
         path = NSBundle.mainBundle().pathForResource(resourceName, ofType: ext)
         width    = 0

@@ -19,9 +19,9 @@
 		A2C1EBBB1B8242E80033C85A /* Matrix4.m in Sources */ = {isa = PBXBuildFile; fileRef = A2C1EBBA1B8242E80033C85A /* Matrix4.m */; };
 		A2C1EBC01B824A230033C85A /* Vertex.swift in Sources */ = {isa = PBXBuildFile; fileRef = A2C1EBBF1B824A230033C85A /* Vertex.swift */; };
 		A2C1EBC21B825A6A0033C85A /* Node.swift in Sources */ = {isa = PBXBuildFile; fileRef = A2C1EBC11B825A6A0033C85A /* Node.swift */; };
-		A2C1EBC41B825FBD0033C85A /* Triangle.swift in Sources */ = {isa = PBXBuildFile; fileRef = A2C1EBC31B825FBD0033C85A /* Triangle.swift */; };
 		A2C1EBC61B826B0E0033C85A /* Cube.swift in Sources */ = {isa = PBXBuildFile; fileRef = A2C1EBC51B826B0E0033C85A /* Cube.swift */; };
 		A2D2DFB91B838C9800918D84 /* MetalTexture.swift in Sources */ = {isa = PBXBuildFile; fileRef = A2D2DFB81B838C9800918D84 /* MetalTexture.swift */; };
+		A2D2DFBB1B83B48B00918D84 /* cube.png in Resources */ = {isa = PBXBuildFile; fileRef = A2D2DFBA1B83B48B00918D84 /* cube.png */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -53,9 +53,9 @@
 		A2C1EBBE1B8244F50033C85A /* HelloMetal-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "HelloMetal-Bridging-Header.h"; sourceTree = "<group>"; };
 		A2C1EBBF1B824A230033C85A /* Vertex.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Vertex.swift; sourceTree = "<group>"; };
 		A2C1EBC11B825A6A0033C85A /* Node.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Node.swift; sourceTree = "<group>"; };
-		A2C1EBC31B825FBD0033C85A /* Triangle.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Triangle.swift; sourceTree = "<group>"; };
 		A2C1EBC51B826B0E0033C85A /* Cube.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Cube.swift; sourceTree = "<group>"; };
 		A2D2DFB81B838C9800918D84 /* MetalTexture.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MetalTexture.swift; sourceTree = "<group>"; };
+		A2D2DFBA1B83B48B00918D84 /* cube.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = cube.png; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -102,17 +102,17 @@
 				A257516F1B836EC000FCC740 /* SceneViewController.swift */,
 				A2C1EBC11B825A6A0033C85A /* Node.swift */,
 				A2C1EBC51B826B0E0033C85A /* Cube.swift */,
-				A2C1EBC31B825FBD0033C85A /* Triangle.swift */,
 				A25751711B83742600FCC740 /* BufferProvider.swift */,
 				A2D2DFB81B838C9800918D84 /* MetalTexture.swift */,
 				A2C1EBBF1B824A230033C85A /* Vertex.swift */,
 				A2C1EBB91B8242E80033C85A /* Matrix4.h */,
 				A2C1EBBA1B8242E80033C85A /* Matrix4.m */,
+				35023C6519DDBB29006F3266 /* Shaders.metal */,
 				35023C4919DDB970006F3266 /* Main.storyboard */,
 				35023C4C19DDB970006F3266 /* Images.xcassets */,
 				35023C4E19DDB970006F3266 /* LaunchScreen.xib */,
+				A2D2DFBA1B83B48B00918D84 /* cube.png */,
 				35023C4319DDB96F006F3266 /* Supporting Files */,
-				35023C6519DDBB29006F3266 /* Shaders.metal */,
 				A2C1EBBE1B8244F50033C85A /* HelloMetal-Bridging-Header.h */,
 			);
 			path = HelloMetal;
@@ -225,6 +225,7 @@
 			files = (
 				35023C4B19DDB970006F3266 /* Main.storyboard in Resources */,
 				35023C5019DDB970006F3266 /* LaunchScreen.xib in Resources */,
+				A2D2DFBB1B83B48B00918D84 /* cube.png in Resources */,
 				35023C4D19DDB970006F3266 /* Images.xcassets in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -251,7 +252,6 @@
 				A2C1EBC21B825A6A0033C85A /* Node.swift in Sources */,
 				A2C1EBC61B826B0E0033C85A /* Cube.swift in Sources */,
 				A2C1EBC01B824A230033C85A /* Vertex.swift in Sources */,
-				A2C1EBC41B825FBD0033C85A /* Triangle.swift in Sources */,
 				35023C4619DDB96F006F3266 /* AppDelegate.swift in Sources */,
 				A257516E1B836A8100FCC740 /* MetalViewController.swift in Sources */,
 			);

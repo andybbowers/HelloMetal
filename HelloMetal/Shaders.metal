@@ -12,11 +12,13 @@ using namespace metal;
 struct VertexIn {
     packed_float3 position;
     packed_float4 color;
+    packed_float2 textureCoordinate;
 };
 
 struct VertexOut {
     float4 position [[ position ]];
     float4 color;
+    float2 textureCoordinate;
 };
 
 struct Uniforms {
@@ -42,12 +44,18 @@ vertex VertexOut basic_vertex(const device VertexIn* vertex_array   [[ buffer(0)
     VertexOut.position = proj_Matrix * mv_Matrix * float4(VertexIn.position, 1);
     VertexOut.color = VertexIn.color;
     
+    VertexOut.textureCoordinate = VertexIn.textureCoordinate;
+    
     return VertexOut;
     
 }
 
 // this fragment shader takes interpolated values from VertexOut structure
-fragment half4 basic_fragment(VertexOut interpolated [[ stage_in ]]) {
+fragment float4 basic_fragment(VertexOut interpolated [[ stage_in ]],
+                               texture2d<float> tex2D [[ texture(0) ]],
+                               sampler sampler2D      [[ sampler(0) ]]) {
     //return color for the current fragment
-    return half4(interpolated.color[0], interpolated.color[1], interpolated.color[2], interpolated.color[3]);
+    float4 color = tex2D.sample(sampler2D, interpolated.textureCoordinate);
+    return color;
+    
 }

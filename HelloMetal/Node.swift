@@ -33,7 +33,10 @@ class Node {
     
     var time:CFTimeInterval = 0.0
     
-    init(name: String, vertices: Array<Vertex>, device: MTLDevice) {
+    var texture: MTLTexture
+    lazy var samplerState: MTLSamplerState? = Node.defaultSampler(self.device)
+    
+    init(name: String, vertices: Array<Vertex>, device: MTLDevice, texture: MTLTexture) {
         
         // Since Node is an object to draw, you need to provide it with the vertices it contains, a name for convenience, and a device to create buffers and render later on.
         
@@ -51,6 +54,7 @@ class Node {
         self.name = name
         self.device = device
         vertexCount = vertices.count
+        self.texture = texture
         
         self.bufferProvider = BufferProvider(device: device, inflightBuffersCount: 3, sizeOfUniformsBufffer: sizeof(Float) * Matrix4.numberOfElements() * 2)
     }
@@ -82,6 +86,12 @@ class Node {
             renderEncoder.setRenderPipelineState(pipelineState)
             renderEncoder.setVertexBuffer(vertexBuffer, offset: 0, atIndex: 0)
             
+            // this passes the texture and sample to the shaders
+            renderEncoder.setFragmentTexture(texture, atIndex: 0)
+            if let samplerState = samplerState {
+                renderEncoder.setFragmentSamplerState(samplerState, atIndex: 0)
+            }
+            
             // converts the current convenience properties (position, rotation, scale) into a model matrix
             var nodeModelMatrix = self.modelMatrix()
             nodeModelMatrix.multiplyLeft(parentModelViewMatrix)
@@ -110,6 +120,27 @@ class Node {
     
     func updateWithDelta(delta: CFTimeInterval) {
         time += delta
+    }
+    
+    // this method generates a simple texture sampler that basically just holds a bunch of flags.  Here you enable "nearest neighbor" filtering, which is the fastes method of filtering (opposed to "linear"), and "clamp tp edge" which instructs Metal how to deal with out of range values
+    class func defaultSampler(device: MTLDevice) -> MTLSamplerState {
+        var pSamplerDescriptor: MTLSamplerDescriptor? = MTLSamplerDescriptor()
+        
+        if let sampler = pSamplerDescriptor {
+            sampler.minFilter                   = MTLSamplerMinMagFilter.Nearest
+            sampler.magFilter                   = MTLSamplerMinMagFilter.Nearest
+            sampler.mipFilter                   = MTLSamplerMipFilter.Nearest
+            sampler.maxAnisotropy               = 1
+            sampler.sAddressMode                = MTLSamplerAddressMode.ClampToEdge
+            sampler.tAddressMode                = MTLSamplerAddressMode.ClampToEdge
+            sampler.rAddressMode                = MTLSamplerAddressMode.ClampToEdge
+            sampler.normalizedCoordinates       = true
+            sampler.lodMinClamp                 = 0
+            sampler.lodMaxClamp                 = FLT_MAX
+        } else {
+            println(">> ERROR: Failed creating a sampler descriptor!")
+        }
+        return device.newSamplerStateWithDescriptor(pSamplerDescriptor!)
     }
     
 }
